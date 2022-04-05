@@ -8,7 +8,8 @@ function createWindow() {
     const win = new BrowserWindow({
         width: 800,
         height: 600,
-        // frame: false,
+        frame: false,
+        // transparent: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },
@@ -19,6 +20,14 @@ function createWindow() {
     }
 
     // win.loadFile('./dist/index.html');
+
+    ipcMain.on("ignore-events", (evt, ignore) => {
+        if (ignore) {
+            win.setIgnoreMouseEvents(true, { forward: true });
+        } else {
+            win.setIgnoreMouseEvents(false);
+        }
+    });
 
     // 打开文件浏览器
     ipcMain.on("open-files", async (evt) => {

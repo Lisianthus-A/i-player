@@ -1,4 +1,7 @@
 export const getFileName = (path: string) => {
+    if (!path) {
+        return "";
+    }
     const pos = Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\"));
     if (pos < 0) {
         return path;

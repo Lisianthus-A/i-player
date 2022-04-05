@@ -1,6 +1,6 @@
 export interface MusicItem {
     path: string;
-    buffer: AudioBuffer;
+    buffer: AudioBuffer | null;
 }
 
 class Music {
@@ -9,7 +9,7 @@ class Music {
     // 开始时间，用于计算当前播放时长
     private startTime: number | false;
     // 当前播放的歌曲
-    private playingItem: MusicItem | null;
+    private playingItem: MusicItem;
 
     private audioContext: AudioContext;
     private gainNode: GainNode;
@@ -22,7 +22,7 @@ class Music {
         this.currentSource = null;
         this.onEnded = null;
         this.startTime = false;
-        this.playingItem = null;
+        this.playingItem = { path: "", buffer: null };
     }
 
     /**
@@ -31,7 +31,7 @@ class Music {
     private async getMusic(path: string): Promise<AudioBuffer | null> {
         const { audioContext, playingItem } = this;
         // path 为当前播放的歌曲
-        if (playingItem && playingItem.path === path) {
+        if (playingItem.path === path && playingItem.buffer) {
             return playingItem.buffer;
         }
 
@@ -40,12 +40,15 @@ class Music {
             return null;
         }
 
-        const audioBuffer = await audioContext.decodeAudioData(arrayBuffer.slice(0));
-        this.playingItem = {
-            path,
-            buffer: audioBuffer,
-        };
-        return audioBuffer;
+        const audioBuffer = await audioContext.decodeAudioData(
+            arrayBuffer.slice(0)
+        );
+        if (playingItem.path === path) {
+            playingItem.buffer = audioBuffer;
+            return audioBuffer;
+        }
+
+        return null;
     }
 
     /**
@@ -59,7 +62,7 @@ class Music {
     /* ============= 暴露方法 =============  */
     /**
      * 播放歌曲
-     * 
+     *
      * @param path 歌曲路径
      * @param offset 播放初始位置，默认为 0
      */
@@ -67,13 +70,16 @@ class Music {
         const { currentSource, audioContext, gainNode, playingItem } = this;
         // 当前状态为暂停
         // 恢复 Context 为播放状态
-        if (audioContext.state === 'suspended') {
+        if (audioContext.state === "suspended") {
             this.restart();
             // 需要播放的歌曲与当前歌曲相同
-            if (playingItem && playingItem.path === path && offset === undefined) {
+            if (playingItem.path === path && offset === undefined) {
                 return true;
             }
         }
+
+        playingItem.path = path;
+        playingItem.buffer = null;
 
         // 停止当前音频
         this.startTime = false;
@@ -92,7 +98,7 @@ class Music {
         // 创建 Source
         const source = audioContext.createBufferSource();
         source.buffer = musicBuffer;
-        source.connect(gainNode)
+        source.connect(gainNode);
         this.currentSource = source;
 
         // 播放
@@ -103,7 +109,8 @@ class Music {
         source.onended = () => {
             this.startTime = false;
             this.onEnded && this.onEnded();
-        }
+        };
+
         return true;
     }
 
@@ -136,11 +143,8 @@ class Music {
      */
     getCurrentTime(): number {
         const { audioContext, startTime } = this;
-        return startTime !== false
-            ? audioContext.currentTime - startTime
-            : 0;
+        return startTime !== false ? audioContext.currentTime - startTime : 0;
     }
 }
 
-// 单例模式
 export default new Music();
