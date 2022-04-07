@@ -9,7 +9,7 @@ function createWindow() {
         width: 800,
         height: 600,
         frame: false,
-        // transparent: true,
+        transparent: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },
@@ -21,6 +21,7 @@ function createWindow() {
 
     // win.loadFile('./dist/index.html');
 
+    // 忽略事件
     ipcMain.on("ignore-events", (evt, ignore) => {
         if (ignore) {
             win.setIgnoreMouseEvents(true, { forward: true });
@@ -57,17 +58,23 @@ function createWindow() {
         evt.sender.send("open-files-callback", filePaths);
     });
 
-    // 退出应用
-    ipcMain.on("exit", async () => {
-        const { response } = await dialog.showMessageBox({
-            type: "info",
-            title: "退出",
-            message: "是否确认要退出？",
-            buttons: ["是", "否"],
-        });
-        if (response === 0) {
-            app.quit();
+    // 窗口最大化 / 恢复
+    ipcMain.on("toggle-maximize", () => {
+        if (win.isMaximized()) {
+            win.unmaximize();
+        } else {
+            win.maximize();
         }
+    });
+
+    // 窗口最小化
+    ipcMain.on("minimize", () => {
+        win.minimize();
+    });
+
+    // 退出应用
+    ipcMain.on("exit", () => {
+        app.quit();
     });
 }
 
@@ -83,7 +90,6 @@ app.whenReady().then(() => {
     });
 
     app.on("window-all-closed", () => {
-        console.log("electron window all close");
         if (process.platform !== "darwin") {
             app.quit();
         }

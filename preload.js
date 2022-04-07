@@ -27,4 +27,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
     ignoreEvents: (ignore) => {
         ipcRenderer.send("ignore-events", ignore);
     },
+    minimize: () => {
+        ipcRenderer.send('minimize');
+    },
+    toggleMaximize: () => {
+        ipcRenderer.send('toggle-maximize');
+    },
 });
