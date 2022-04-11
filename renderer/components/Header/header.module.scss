@@ -1,8 +1,9 @@
 .header {
     -webkit-app-region: drag;
     height: 32px;
+    flex-shrink: 0;
     border-radius: 8px 8px 0 0;
-    background-color: cadetblue;
+    background-color: #b8fff9;
     display: flex;
     justify-content: flex-end;
     align-items: center;

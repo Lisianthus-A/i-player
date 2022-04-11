@@ -20,6 +20,14 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
+        "paths": {
+            "Utils/*": [
+                "renderer/utils/*"
+            ],
+            "Components/*": [
+                "renderer/components/*"
+            ]
+        }
     },
     "include": [
         "./renderer/**/*",

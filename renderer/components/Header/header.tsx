@@ -6,7 +6,7 @@ function Header() {
     const [isMax, setIsMax] = useState<boolean>(false);
 
     return (
-        <div className={styles.header}>
+        <header className={styles.header}>
             <Icon
                 type="icon-minimize"
                 className="icon"
@@ -25,7 +25,7 @@ function Header() {
                 className="icon icon-close"
                 onClick={window.electronAPI.exit}
             />
-        </div>
+        </header>
     );
 }
 

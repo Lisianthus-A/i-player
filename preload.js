@@ -24,9 +24,6 @@ contextBridge.exposeInMainWorld("electronAPI", {
                 resolve(fs.readFileSync(path).buffer);
             });
         }),
-    ignoreEvents: (ignore) => {
-        ipcRenderer.send("ignore-events", ignore);
-    },
     minimize: () => {
         ipcRenderer.send('minimize');
     },
