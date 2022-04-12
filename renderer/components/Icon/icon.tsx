@@ -9,7 +9,13 @@ interface Props {
 
 function Icon({ type, onClick, className }: Props) {
     return (
-        <svg className={className} onClick={onClick}>
+        <svg
+            className={className}
+            onClick={onClick}
+            width="1em"
+            height="1em"
+            fill="currentColor"
+        >
             <use xlinkHref={`#${type}`} />
         </svg>
     );
