@@ -1,4 +1,10 @@
 .canvas {
-    height: 100%;
-    background-color: lightsteelblue;
+    height: calc(100vh - 96px);
+
+    :global {
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+    }
 }

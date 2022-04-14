@@ -1,5 +1,18 @@
 body {
     margin: 0;
+    font-family: helvetica;
+}
+
+body .icon-unmaximize {
+    display: none;
+}
+
+body.maximize .icon-maximize {
+    display: none;
+}
+
+body.maximize .icon-unmaximize {
+    display: block;
 }
 
 * {

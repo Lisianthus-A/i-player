@@ -1,10 +1,7 @@
 import styles from "./header.module.scss";
 import { Icon } from "../index";
-import { useState } from "react";
 
 function Header() {
-    const [isMax, setIsMax] = useState<boolean>(false);
-
     return (
         <header className={styles.header}>
             <Icon
@@ -13,10 +10,16 @@ function Header() {
                 onClick={window.electronAPI.minimize}
             />
             <Icon
-                type={isMax ? "icon-return-size" : "icon-maximize"}
+                type="icon-maximize"
                 className="icon icon-maximize"
                 onClick={() => {
-                    setIsMax(!isMax);
+                    window.electronAPI.toggleMaximize();
+                }}
+            />
+            <Icon
+                type="icon-return-size"
+                className="icon icon-unmaximize"
+                onClick={() => {
                     window.electronAPI.toggleMaximize();
                 }}
             />

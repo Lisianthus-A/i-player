@@ -11,7 +11,6 @@ function createWindow() {
         minWidth: 480,
         minHeight: 360,
         frame: false,
-        transparent: true,
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),
         },
@@ -20,6 +19,13 @@ function createWindow() {
     if (isDev) {
         win.loadURL("http://localhost:4000");
     }
+
+    win.on("maximize", () => {
+        win.webContents.send("win-maximize");
+    });
+    win.on("unmaximize", () => {
+        win.webContents.send("win-unmaximize");
+    });
 
     // win.loadFile('./dist/index.html');
 

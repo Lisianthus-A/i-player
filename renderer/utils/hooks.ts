@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 
 export const useSetState = <T extends object>(
     initialState: T = {} as T
@@ -15,4 +15,19 @@ export const useSetState = <T extends object>(
     }, []);
 
     return [state, setState];
+};
+
+export const useInterval = (callback: Function, delay?: number | null) => {
+    const savedCallback = useRef<Function>(() => {});
+
+    useEffect(() => {
+        savedCallback.current = callback;
+    }, [callback]);
+
+    useEffect(() => {
+        if (delay !== null) {
+            const interval = setInterval(() => savedCallback.current(), delay);
+            return () => clearInterval(interval);
+        }
+    }, [delay]);
 };

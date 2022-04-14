@@ -7,6 +7,14 @@ ipcRenderer.on("open-files-callback", (evt, paths) => {
     typeof openFilesCallback === "function" && openFilesCallback(paths);
 });
 
+ipcRenderer.on("win-maximize", () => {
+    document.body.classList.add("maximize");
+});
+
+ipcRenderer.on("win-unmaximize", () => {
+    document.body.classList.remove("maximize");
+});
+
 contextBridge.exposeInMainWorld("electronAPI", {
     exit: () => ipcRenderer.send("exit"),
     openFiles: (callback) => {
@@ -25,9 +33,9 @@ contextBridge.exposeInMainWorld("electronAPI", {
             });
         }),
     minimize: () => {
-        ipcRenderer.send('minimize');
+        ipcRenderer.send("minimize");
     },
     toggleMaximize: () => {
-        ipcRenderer.send('toggle-maximize');
+        ipcRenderer.send("toggle-maximize");
     },
 });

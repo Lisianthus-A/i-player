@@ -11,24 +11,37 @@ export const getFileName = (path: string) => {
     }
 };
 
+export const timeConvert = (time: number) => {
+    const minNum = (time / 60) >> 0;
+    const secNum = (time - minNum * 60) >> 0;
+    const min = String(minNum).padStart(2, "0");
+    const sec = String(secNum).padStart(2, "0");
+    return `${min}:${sec}`;
+};
+
 export const getDuration = async (path: string) => {
     const buffer = await window.electronAPI.readFile(path);
     if (!buffer) {
-        return 0;
+        return "00:00";
     }
     const blob = new Blob([buffer], { type: "audio/wav" });
     const src = window.URL.createObjectURL(blob);
-    const result = await new Promise<number>((resolve) => {
+    const result = await new Promise<string>((resolve) => {
         const audio = new Audio();
         audio.onloadedmetadata = () => {
-            resolve(audio.duration);
+            const { duration } = audio;
+            if (isNaN(duration)) {
+                resolve("00:00");
+            } else {
+                resolve(timeConvert(duration));
+            }
         };
         audio.onerror = () => {
-            resolve(0);
+            resolve("00:00");
         };
         audio.src = src;
     });
 
     window.URL.revokeObjectURL(src);
     return result;
-}
+};

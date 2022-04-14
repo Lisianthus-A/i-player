@@ -1,3 +1,8 @@
+// @ts-ignore
+import butterchurn from "butterchurn";
+// @ts-ignore
+import butterchurnPresets from "butterchurn-presets";
+
 export interface MusicItem {
     path: string;
     buffer: AudioBuffer | null;
@@ -14,15 +19,25 @@ class Music {
     private audioContext: AudioContext;
     private gainNode: GainNode;
     private currentSource: AudioBufferSourceNode | null;
+    private visualizer: any;
+    private presets: Record<string, any>;
+    private presetKeys: string[];
+    private renderId: number;
 
     constructor() {
         this.audioContext = new AudioContext();
         this.gainNode = this.audioContext.createGain();
         this.gainNode.connect(this.audioContext.destination);
         this.currentSource = null;
+        this.visualizer = null;
+        this.presets = butterchurnPresets.getPresets();
+        this.presetKeys = Object.keys(this.presets);
         this.onEnded = null;
         this.startTime = false;
         this.playingItem = { path: "", buffer: null };
+        this.renderId = 0;
+
+        this.draw = this.draw.bind(this);
     }
 
     /**
@@ -66,11 +81,18 @@ class Music {
      * @param path 歌曲路径
      * @param offset 播放初始位置，默认为 0
      */
-    async play(path: string, offset?: number): Promise<boolean> {
-        const { currentSource, audioContext, gainNode, playingItem } = this;
+    async play(path?: string, offset?: number): Promise<boolean> {
+        const {
+            currentSource,
+            audioContext,
+            gainNode,
+            playingItem,
+            visualizer,
+        } = this;
         // 当前状态为暂停
         // 恢复 Context 为播放状态
         if (audioContext.state === "suspended") {
+            this.draw();
             this.restart();
             // 需要播放的歌曲与当前歌曲相同
             if (playingItem.path === path && offset === undefined) {
@@ -78,8 +100,10 @@ class Music {
             }
         }
 
-        playingItem.path = path;
-        playingItem.buffer = null;
+        if (path !== undefined && path !== playingItem.path) {
+            playingItem.path = path;
+            playingItem.buffer = null;
+        }
 
         // 停止当前音频
         this.startTime = false;
@@ -88,9 +112,10 @@ class Music {
             currentSource.stop(0);
             currentSource.disconnect();
         }
+        this.stopDarw();
 
         // 获取歌曲的 AudioBuffer
-        const musicBuffer = await this.getMusic(path);
+        const musicBuffer = await this.getMusic(playingItem.path);
         if (!musicBuffer) {
             return false;
         }
@@ -100,6 +125,10 @@ class Music {
         source.buffer = musicBuffer;
         source.connect(gainNode);
         this.currentSource = source;
+        if (visualizer) {
+            visualizer.connectAudio(source);
+            this.draw();
+        }
 
         // 播放
         this.startTime = audioContext.currentTime - (offset || 0);
@@ -119,6 +148,7 @@ class Music {
      */
     async pause(): Promise<boolean> {
         await this.audioContext.suspend();
+        this.stopDarw();
         return true;
     }
 
@@ -144,6 +174,58 @@ class Music {
     getCurrentTime(): number {
         const { audioContext, startTime } = this;
         return startTime !== false ? audioContext.currentTime - startTime : 0;
+    }
+
+    /**
+     * 设置可视化 canvas 容器
+     */
+    setCanvas(canvas: HTMLCanvasElement, width: number, height: number) {
+        const visualizer = butterchurn.createVisualizer(
+            this.audioContext,
+            canvas,
+            {
+                width,
+                height,
+                pixelRatio: window.devicePixelRatio || 1,
+                textureRatio: 1,
+            }
+        );
+        this.visualizer = visualizer;
+        this.setRandomPreset(0);
+    }
+
+    /**
+     * 设置随机 preset
+     */
+    setRandomPreset(blendTime = 5.7) {
+        const { visualizer, presetKeys, presets } = this;
+        const randomIndex = (Math.random() * presetKeys.length) >> 0;
+        const key = presetKeys[randomIndex];
+        visualizer.loadPreset(presets[key], blendTime);
+    }
+
+    /**
+     * 设置可视化宽高
+     */
+    setWH(width: number, height: number) {
+        const { visualizer } = this;
+        visualizer.setRendererSize(width, height);
+    }
+
+    /**
+     * 开始绘制 canvas
+     */
+    draw() {
+        const { visualizer } = this;
+        visualizer.render();
+        this.renderId = requestAnimationFrame(this.draw);
+    }
+
+    /**
+     * 停止绘制 canvas
+     */
+    stopDarw() {
+        cancelAnimationFrame(this.renderId);
     }
 }
 
