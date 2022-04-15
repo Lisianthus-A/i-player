@@ -82,6 +82,11 @@ function Controler() {
         setState({ status: "pause" });
     }, []);
 
+    // 设置播放状态为 playing
+    const handleSetPlaying = useCallback(() => {
+        setState({ status: 'playing' });
+    }, []);
+
     // 上一首 / 下一首
     const handlePrevOrNext = useCallback(
         (type: "prev" | "next") => {
@@ -124,7 +129,7 @@ function Controler() {
                 onPause={handlePause}
                 onPrevOrNext={handlePrevOrNext}
             />
-            <Middle playingItem={playingItem} />
+            <Middle playingItem={playingItem} onSetPlaying={handleSetPlaying} />
             <Right />
             {false && <Drawer />}
         </footer>

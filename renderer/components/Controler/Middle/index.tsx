@@ -6,9 +6,10 @@ import { memo } from "react";
 
 interface Props {
     playingItem: null | SongItem;
+    onSetPlaying: () => void;
 }
 
-function Middle({ playingItem }: Props) {
+function Middle({ playingItem, onSetPlaying }: Props) {
     const title = playingItem ? playingItem.name : "Title";
     const duration = playingItem ? playingItem.duration : "00:00";
 
@@ -17,9 +18,7 @@ function Middle({ playingItem }: Props) {
             <div className="title" title={title}>
                 {title}
             </div>
-            <ProgressBar
-                duration={duration}
-            />
+            <ProgressBar duration={duration} onSetPlaying={onSetPlaying} />
             <Time duration={duration} />
         </div>
     );

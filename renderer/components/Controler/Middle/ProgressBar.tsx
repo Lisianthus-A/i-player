@@ -6,9 +6,10 @@ import type { MouseEvent } from "react";
 
 interface Props {
     duration: string;
+    onSetPlaying: () => void;
 }
 
-function ProgressBar({ duration }: Props) {
+function ProgressBar({ duration, onSetPlaying }: Props) {
     const barRef = useRef<HTMLDivElement | null>(null);
     const tipRef = useRef<HTMLDivElement | null>(null);
     const durationNum = useMemo(() => {
@@ -76,6 +77,7 @@ function ProgressBar({ duration }: Props) {
 
         setProgress(percent * 100);
         music.play(undefined, percent * durationNum);
+        onSetPlaying();
     };
 
     useInterval(
