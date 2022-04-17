@@ -1,27 +1,35 @@
-import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { useInterval } from "Utils/hooks";
-import music from "Utils/music";
+import { memo, useEffect, useRef, useState } from "react";
 import { timeConvert } from "Utils/index";
+import { useAppSelector, useAppDispatch } from "Utils/hooks";
+import { play } from "Store/musicSlice";
 import type { MouseEvent } from "react";
 
-interface Props {
-    duration: string;
-    onSetPlaying: () => void;
-}
-
-function ProgressBar({ duration, onSetPlaying }: Props) {
+function ProgressBar() {
     const barRef = useRef<HTMLDivElement | null>(null);
     const tipRef = useRef<HTMLDivElement | null>(null);
-    const durationNum = useMemo(() => {
-        const [min, sec] = duration.split(":");
-        return parseInt(min) * 60 + parseInt(sec);
-    }, [duration]);
+    const dispatch = useAppDispatch();
+    const currentTime = useAppSelector((state) => state.music.currentTime);
+    const duration = useAppSelector(
+        (state) => state.music.playingItem?.duration || 0
+    );
+    const playingItem = useAppSelector((state) => state.music.playingItem);
 
-    const [progress, setProgress] = useState<number>(0);
     const [tipVisible, setTipVisible] = useState<boolean>(false);
 
+    // 更新进度条元素宽度
+    const updateElementWidth = (percent: number) => {
+        const bar = barRef.current;
+        if (!bar) {
+            return;
+        }
+
+        bar.style.setProperty("--rail-width", `${percent}%`);
+        bar.style.setProperty("--track-width", `${100 - percent}%`);
+    };
+
+    // 鼠标按下
     const handleMouseDown = (evt: MouseEvent) => {
-        if (evt.button !== 0 || durationNum === 0) {
+        if (evt.button !== 0 || duration === 0) {
             return;
         }
 
@@ -38,10 +46,11 @@ function ProgressBar({ duration, onSetPlaying }: Props) {
         const width = window.innerWidth - 320;
         const percent = (evt.clientX - 160) / width;
 
-        tip.textContent = timeConvert(percent * durationNum);
-        setProgress(percent * 100);
+        tip.textContent = timeConvert(percent * duration);
+        updateElementWidth(percent * 100);
     };
 
+    // 鼠标移动
     const handleMouseMove = (evt: globalThis.MouseEvent) => {
         const tip = tipRef.current;
         if (!tip) {
@@ -56,10 +65,11 @@ function ProgressBar({ duration, onSetPlaying }: Props) {
         } else if (percent < 0) {
             percent = 0;
         }
-        tip.textContent = timeConvert(percent * durationNum);
-        setProgress(percent * 100);
+        tip.textContent = timeConvert(percent * duration);
+        updateElementWidth(percent * 100);
     };
 
+    // 鼠标抬起
     const handleMouseUp = (evt: globalThis.MouseEvent) => {
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
@@ -75,32 +85,20 @@ function ProgressBar({ duration, onSetPlaying }: Props) {
             percent = 0;
         }
 
-        setProgress(percent * 100);
-        music.play(undefined, percent * durationNum);
-        onSetPlaying();
+        updateElementWidth(percent * 100);
+        if (playingItem) {
+            dispatch(play({ item: playingItem, offset: percent * duration }));
+        }
     };
 
-    useInterval(
-        () => {
-            if (durationNum === 0) {
-                return;
-            }
-            const currentTime = music.getCurrentTime();
-            const currentProgress = (currentTime / durationNum) * 100;
-            setProgress(currentProgress);
-        },
-        tipVisible ? null : 400
-    );
-
     useEffect(() => {
-        const bar = barRef.current;
-        if (!bar) {
+        if (tipVisible || duration === 0) {
             return;
         }
 
-        bar.style.setProperty("--rail-width", `${progress}%`);
-        bar.style.setProperty("--track-width", `${100 - progress}%`);
-    }, [progress]);
+        const percent = (currentTime / duration) * 100;
+        updateElementWidth(percent);
+    }, [tipVisible, currentTime]);
 
     return (
         <div

@@ -26,6 +26,9 @@
             ],
             "Components/*": [
                 "renderer/components/*"
+            ],
+            "Store/*": [
+                "renderer/store/*"
             ]
         }
     },

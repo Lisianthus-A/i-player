@@ -22,22 +22,22 @@ export const timeConvert = (time: number) => {
 export const getDuration = async (path: string) => {
     const buffer = await window.electronAPI.readFile(path);
     if (!buffer) {
-        return "00:00";
+        return 0;
     }
     const blob = new Blob([buffer], { type: "audio/wav" });
     const src = window.URL.createObjectURL(blob);
-    const result = await new Promise<string>((resolve) => {
+    const result = await new Promise<number>((resolve) => {
         const audio = new Audio();
         audio.onloadedmetadata = () => {
             const { duration } = audio;
             if (isNaN(duration)) {
-                resolve("00:00");
+                resolve(0);
             } else {
-                resolve(timeConvert(duration));
+                resolve(duration);
             }
         };
         audio.onerror = () => {
-            resolve("00:00");
+            resolve(0);
         };
         audio.src = src;
     });

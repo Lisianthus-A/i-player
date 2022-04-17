@@ -9,6 +9,7 @@
     :global {
         .title {
             overflow: hidden;
+            white-space: nowrap;
             text-overflow: ellipsis;
             text-align: center;
             background-image: linear-gradient(90deg, #caf6ff 0%, #ced7ff 45%, #edbfff 100%);

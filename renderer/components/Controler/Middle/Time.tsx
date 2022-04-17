@@ -1,19 +1,13 @@
-import { useState } from "react";
 import { timeConvert } from "Utils/index";
-import { useInterval } from "Utils/hooks";
-import music from "Utils/music";
+import { useAppSelector } from "Utils/hooks";
 
-interface Props {
-    duration: string;
-}
-
-function Time({ duration }: Props) {
-    const [currentTime, setCurrentTime] = useState<string>("00:00");
-
-    useInterval(() => {
-        const time = music.getCurrentTime();
-        setCurrentTime(timeConvert(time));
-    }, 300);
+function Time() {
+    const currentTime = useAppSelector((state) =>
+        timeConvert(state.music.currentTime)
+    );
+    const duration = useAppSelector((state) =>
+        timeConvert(state.music.playingItem?.duration || 0)
+    );
 
     return (
         <div className="time">

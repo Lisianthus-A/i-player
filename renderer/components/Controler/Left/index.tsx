@@ -1,47 +1,49 @@
 import styles from "./index.module.scss";
 import { Icon } from "Components/index";
-import type { SongItem } from "../controler";
-import { memo } from "react";
+import { play, pause, changeSong, selectFiles } from "Store/musicSlice";
+import { useAppDispatch, useAppSelector } from "Utils/hooks";
 
-interface Props {
-    status: "pause" | "playing";
-    playingItem: SongItem | null;
-    onPlay: (item?: SongItem) => void;
-    onPause: () => void;
-    onPrevOrNext: (type: "prev" | "next") => void;
-}
+function Left() {
+    const dispatch = useAppDispatch();
+    const status = useAppSelector((state) => state.music.status);
+    const playingItem = useAppSelector((state) => state.music.playingItem);
 
-function Left({ status, playingItem, onPlay, onPause, onPrevOrNext }: Props) {
+    const handlePlay = () => {
+        if (playingItem === null) {
+            dispatch(selectFiles());
+        } else {
+            dispatch(play({ item: playingItem }));
+        }
+    };
+
     return (
         <div className={styles.left}>
             <Icon
                 type="icon-prev"
                 className="button-prev"
-                onClick={() => onPrevOrNext("prev")}
+                onClick={() => dispatch(changeSong("prev"))}
             />
             {status === "pause" && (
                 <Icon
                     type="icon-play"
                     className="button-play"
-                    onClick={() => {
-                        onPlay(playingItem || undefined);
-                    }}
+                    onClick={handlePlay}
                 />
             )}
             {status === "playing" && (
                 <Icon
                     type="icon-pause"
                     className="button-play"
-                    onClick={onPause}
+                    onClick={() => dispatch(pause())}
                 />
             )}
             <Icon
                 type="icon-prev"
                 className="button-next"
-                onClick={() => onPrevOrNext("next")}
+                onClick={() => dispatch(changeSong("next"))}
             />
         </div>
     );
 }
 
-export default memo(Left);
+export default Left;
