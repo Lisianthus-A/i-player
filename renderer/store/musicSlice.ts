@@ -10,11 +10,12 @@ interface SongItem {
     duration: number;
 }
 
+type ModeType = "cycle" | "random" | "single-cycle";
 interface State {
     playingItem: SongItem | null;
     playlist: SongItem[];
     status: "playing" | "pause";
-    mode: string;
+    mode: ModeType;
     currentTime: number;
 }
 
@@ -92,8 +93,13 @@ const musicSlice = createSlice({
             music.play(nextSong.path);
             music.setRandomPreset(0);
         },
+        // 更新当前时间
         updateCurrentTime: (state) => {
             state.currentTime = music.getCurrentTime();
+        },
+        // 改变播放模式
+        changeMode: (state, action: PA<ModeType>) => {
+            state.mode = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -110,7 +116,7 @@ const musicSlice = createSlice({
     },
 });
 
-export const { play, pause, changeSong, updateCurrentTime } =
+export const { play, pause, changeSong, updateCurrentTime, changeMode } =
     musicSlice.actions;
 
 export default musicSlice;
