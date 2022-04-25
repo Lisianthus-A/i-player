@@ -1,4 +1,32 @@
 .right {
-    width: 160px;
+    width: 240px;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    :global {
+        .icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            font-size: 24px;
+            border-radius: 16px;
+            cursor: pointer;
+            color: #fff;
+            margin-left: 4px;
+            border: 1px solid transparent;
+
+            &:hover {
+                color: #ba67db;
+                border-color: #ba67db;
+            }
+        }
+
+        input[type="range"] {
+            width: 80px;
+        }
+    }
 }

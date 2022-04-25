@@ -1,5 +1,5 @@
 import styles from "./index.module.scss";
-import { Icon } from "Components/index";
+import { Icon, Tooltip } from "Components/index";
 import { play, pause, changeSong, selectFiles } from "Store/musicSlice";
 import { useAppDispatch, useAppSelector } from "Utils/hooks";
 
@@ -18,30 +18,38 @@ function Left() {
 
     return (
         <div className={styles.left}>
-            <Icon
-                type="icon-prev"
-                className="button-prev"
-                onClick={() => dispatch(changeSong("prev"))}
-            />
-            {status === "pause" && (
+            <Tooltip text="上一首">
                 <Icon
-                    type="icon-play"
-                    className="button-play"
-                    onClick={handlePlay}
+                    type="icon-prev"
+                    className="button-prev"
+                    onClick={() => dispatch(changeSong("prev"))}
                 />
+            </Tooltip>
+            {status === "pause" && (
+                <Tooltip text="播放">
+                    <Icon
+                        type="icon-play"
+                        className="button-play"
+                        onClick={handlePlay}
+                    />
+                </Tooltip>
             )}
             {status === "playing" && (
-                <Icon
-                    type="icon-pause"
-                    className="button-play"
-                    onClick={() => dispatch(pause())}
-                />
+                <Tooltip text="暂停">
+                    <Icon
+                        type="icon-pause"
+                        className="button-play"
+                        onClick={() => dispatch(pause())}
+                    />
+                </Tooltip>
             )}
-            <Icon
-                type="icon-prev"
-                className="button-next"
-                onClick={() => dispatch(changeSong("next"))}
-            />
+            <Tooltip text="下一首">
+                <Icon
+                    type="icon-prev"
+                    className="button-next"
+                    onClick={() => dispatch(changeSong("next"))}
+                />
+            </Tooltip>
         </div>
     );
 }

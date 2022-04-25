@@ -43,7 +43,7 @@ function ProgressBar() {
 
         setTipVisible(true);
 
-        const width = window.innerWidth - 320;
+        const width = window.innerWidth - 400;
         const percent = (evt.clientX - 160) / width;
 
         tip.textContent = timeConvert(percent * duration);
@@ -57,7 +57,7 @@ function ProgressBar() {
             return;
         }
 
-        const width = window.innerWidth - 320;
+        const width = window.innerWidth - 400;
         let percent = (evt.clientX - 160) / width;
         // 越界处理
         if (percent > 1) {
@@ -76,7 +76,7 @@ function ProgressBar() {
 
         setTipVisible(false);
 
-        const width = window.innerWidth - 320;
+        const width = window.innerWidth - 400;
         let percent = (evt.clientX - 160) / width;
         // 越界处理
         if (percent > 1) {

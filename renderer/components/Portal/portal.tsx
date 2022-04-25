@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import { useMemo } from "react";
+import { createPortal, unmountComponentAtNode } from "react-dom";
 import type { ReactNode } from "react";
 
 interface Props {
@@ -7,16 +7,19 @@ interface Props {
 }
 
 function Portal({ children }: Props) {
-    const div = document.createElement("div");
-    document.body.appendChild(div);
+    const root = useMemo(() => {
+        const rootElement = document.getElementById("portal-root");
+        if (!rootElement) {
+            const element = document.createElement("div");
+            element.id = "portal-root";
+            document.body.append(element);
+            return element;
+        }
 
-    useEffect(() => {
-        return () => {
-            document.body.removeChild(div);
-        };
+        return rootElement;
     }, []);
 
-    return createPortal(children, div);
+    return createPortal(children, root);
 }
 
 export default Portal;
