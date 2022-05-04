@@ -3,10 +3,10 @@ import { timeConvert } from "Utils/index";
 import { useAppSelector, useAppDispatch } from "Utils/hooks";
 import { play } from "Store/musicSlice";
 import type { MouseEvent } from "react";
+import Tooltip from "Components/Tooltip";
 
 function ProgressBar() {
     const barRef = useRef<HTMLDivElement | null>(null);
-    const tipRef = useRef<HTMLDivElement | null>(null);
     const dispatch = useAppDispatch();
     const currentTime = useAppSelector((state) => state.music.currentTime);
     const duration = useAppSelector(
@@ -14,7 +14,8 @@ function ProgressBar() {
     );
     const playingItem = useAppSelector((state) => state.music.playingItem);
 
-    const [tipVisible, setTipVisible] = useState<boolean>(false);
+    const [draging, setDraging] = useState<boolean>(false);
+    const [tooltipText, setTooltipText] = useState<string>("00:00");
 
     // 更新进度条元素宽度
     const updateElementWidth = (percent: number) => {
@@ -33,30 +34,19 @@ function ProgressBar() {
             return;
         }
 
-        const tip = tipRef.current;
-        if (!tip) {
-            return;
-        }
-
         window.addEventListener("mousemove", handleMouseMove);
         window.addEventListener("mouseup", handleMouseUp);
-
-        setTipVisible(true);
 
         const width = window.innerWidth - 400;
         const percent = (evt.clientX - 160) / width;
 
-        tip.textContent = timeConvert(percent * duration);
+        setDraging(true);
+        setTooltipText(timeConvert(percent * duration));
         updateElementWidth(percent * 100);
     };
 
     // 鼠标移动
     const handleMouseMove = (evt: globalThis.MouseEvent) => {
-        const tip = tipRef.current;
-        if (!tip) {
-            return;
-        }
-
         const width = window.innerWidth - 400;
         let percent = (evt.clientX - 160) / width;
         // 越界处理
@@ -65,7 +55,8 @@ function ProgressBar() {
         } else if (percent < 0) {
             percent = 0;
         }
-        tip.textContent = timeConvert(percent * duration);
+
+        setTooltipText(timeConvert(percent * duration));
         updateElementWidth(percent * 100);
     };
 
@@ -74,8 +65,6 @@ function ProgressBar() {
         window.removeEventListener("mousemove", handleMouseMove);
         window.removeEventListener("mouseup", handleMouseUp);
 
-        setTipVisible(false);
-
         const width = window.innerWidth - 400;
         let percent = (evt.clientX - 160) / width;
         // 越界处理
@@ -85,6 +74,7 @@ function ProgressBar() {
             percent = 0;
         }
 
+        setDraging(false);
         updateElementWidth(percent * 100);
         if (playingItem) {
             dispatch(play({ item: playingItem, offset: percent * duration }));
@@ -92,13 +82,13 @@ function ProgressBar() {
     };
 
     useEffect(() => {
-        if (tipVisible || duration === 0) {
+        if (draging || duration === 0) {
             return;
         }
 
         const percent = (currentTime / duration) * 100;
         updateElementWidth(percent);
-    }, [tipVisible, currentTime]);
+    }, [currentTime]);
 
     return (
         <div
@@ -107,12 +97,9 @@ function ProgressBar() {
             onMouseDown={handleMouseDown}
         >
             <div className="rail">
-                <div className="handle" />
-                <div
-                    className="tooltip"
-                    ref={tipRef}
-                    style={{ visibility: tipVisible ? "visible" : "hidden" }}
-                />
+                <Tooltip text={tooltipText} visible={draging}>
+                    <div className="handle" />
+                </Tooltip>
             </div>
             <div className="track" />
         </div>

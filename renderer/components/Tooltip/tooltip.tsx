@@ -1,16 +1,23 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Portal } from "Components/index";
 import styles from "./tooltip.module.scss";
 import type { ReactElement } from "react";
 
 interface Props {
     wrapClassName?: string;
+    visible?: boolean;
     text: string;
     children: ReactElement;
     onClick?: () => void;
 }
 
-function Tooltip({ wrapClassName, text, children, onClick }: Props) {
+function Tooltip({
+    wrapClassName,
+    visible: propsVisible,
+    text,
+    children,
+    onClick,
+}: Props) {
     const elemRef = useRef<HTMLDivElement>(null);
     const [visible, setVisible] = useState<boolean>(false);
     const [position, setPosition] = useState<{ left: number; top: number }>({
@@ -18,18 +25,39 @@ function Tooltip({ wrapClassName, text, children, onClick }: Props) {
         top: 0,
     });
 
-    useEffect(() => {
+    const updatePosition = useCallback(() => {
         const elem = elemRef.current;
         if (!elem) {
             return;
         }
 
-        const { x, y, width } = elem.getBoundingClientRect();
+        const { x, y, width } = elem.children[0].getBoundingClientRect();
         setPosition({
             left: x + width / 2,
             top: y - 40,
         });
     }, []);
+
+    const handleMouseEnter = () => {
+        setVisible(true);
+    };
+
+    const handleMouseLeave = () => {
+        setVisible(false);
+    };
+
+    const isVisible = propsVisible === undefined ? visible : propsVisible;
+    useEffect(() => {
+        updatePosition();
+
+        if (isVisible) {
+            window.addEventListener("mousemove", updatePosition);
+
+            return () => {
+                window.removeEventListener("mousemove", updatePosition);
+            };
+        }
+    }, [isVisible]);
 
     const { left, top } = position;
 
@@ -37,13 +65,13 @@ function Tooltip({ wrapClassName, text, children, onClick }: Props) {
         <div
             className={wrapClassName}
             ref={elemRef}
-            onMouseEnter={() => setVisible(true)}
-            onMouseLeave={() => setVisible(false)}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
             onClick={onClick}
         >
             {children}
 
-            {visible && (
+            {isVisible && (
                 <Portal>
                     <div className={styles.tips} style={{ left, top }}>
                         {text}

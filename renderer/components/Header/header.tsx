@@ -1,9 +1,15 @@
 import styles from "./header.module.scss";
 import { Icon } from "../index";
+import { useAppSelector } from "Utils/hooks";
 
 function Header() {
+    const playingItem = useAppSelector((state) => state.music.playingItem);
+    const title = playingItem ? playingItem.name : "Title";
+
     return (
         <header className={styles.header}>
+            <img className="favicon" src="/favicon.ico" />
+            <div className="title">{title}</div>
             <Icon
                 type="icon-minimize"
                 className="icon"

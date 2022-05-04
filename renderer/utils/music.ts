@@ -81,7 +81,7 @@ class Music {
      * @param path 歌曲路径
      * @param offset 播放初始位置，默认为 0
      */
-    async play(path?: string, offset?: number): Promise<boolean> {
+    async play(path: string, offset?: number): Promise<boolean> {
         const {
             currentSource,
             audioContext,
@@ -100,7 +100,7 @@ class Music {
             }
         }
 
-        if (path !== undefined && path !== playingItem.path) {
+        if (path !== playingItem.path) {
             playingItem.path = path;
             playingItem.buffer = null;
         }
