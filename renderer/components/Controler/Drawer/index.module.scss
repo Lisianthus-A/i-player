@@ -1,3 +1,9 @@
 .drawer {
     position: absolute;
+    top: 32px;
+    right: 0;
+    width: 200px;
+    height: calc(100vh - 96px);
+    background-color: darkcyan;
+    color: #fff;
 }

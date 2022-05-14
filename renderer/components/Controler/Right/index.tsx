@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 import { Icon, Tooltip } from "Components/index";
 import { useAppSelector, useAppDispatch } from "Utils/hooks";
-import { changeMode } from "Store/musicSlice";
+import { changeMode, togglePlaylistVisible } from "Store/musicSlice";
 import music from "Utils/music";
 
 const modeMap = {
@@ -22,6 +22,9 @@ const modeMap = {
 
 function Right() {
     const mode = useAppSelector((state) => state.music.mode);
+    const playlistVisible = useAppSelector(
+        (state) => state.music.playlistVisible
+    );
     const dispatch = useAppDispatch();
     const { text, icon } = modeMap[mode];
     const [isMute, setIsMute] = useState<boolean>(false);
@@ -56,15 +59,19 @@ function Right() {
             >
                 <Icon type={icon} />
             </Tooltip>
-            <Tooltip text="播放列表" wrapClassName="icon">
+            <Tooltip
+                text="播放列表"
+                wrapClassName={playlistVisible ? "icon active" : "icon"}
+                onClick={() => dispatch(togglePlaylistVisible())}
+            >
                 <Icon type="icon-list" />
             </Tooltip>
             <Tooltip
                 text="音量"
-                wrapClassName="icon"
+                wrapClassName={isMute ? "icon f28" : "icon"}
                 onClick={() => setIsMute(!isMute)}
             >
-                <Icon type="icon-voice" />
+                <Icon type={isMute ? "icon-mute" : "icon-voice"} />
             </Tooltip>
             <input
                 value={isMute ? "0" : volume}

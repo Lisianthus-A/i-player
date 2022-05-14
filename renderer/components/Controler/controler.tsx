@@ -26,7 +26,7 @@ function Controler() {
             <Left />
             <Middle />
             <Right />
-            {false && <Drawer />}
+            <Drawer />
         </footer>
     );
 }

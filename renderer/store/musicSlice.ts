@@ -14,6 +14,7 @@ type ModeType = "cycle" | "random" | "single-cycle";
 interface State {
     playingItem: SongItem | null;
     playlist: SongItem[];
+    playlistVisible: boolean;
     status: "playing" | "pause";
     mode: ModeType;
     currentTime: number;
@@ -22,6 +23,7 @@ interface State {
 const initialState: State = {
     playingItem: null,
     playlist: [],
+    playlistVisible: false,
     status: "pause",
     mode: "cycle",
     currentTime: 0,
@@ -101,6 +103,10 @@ const musicSlice = createSlice({
         changeMode: (state, action: PA<ModeType>) => {
             state.mode = action.payload;
         },
+        // 显示 / 隐藏播放列表
+        togglePlaylistVisible: (state) => {
+            state.playlistVisible = !state.playlistVisible;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(selectFiles.fulfilled, (state, action) => {
@@ -116,7 +122,13 @@ const musicSlice = createSlice({
     },
 });
 
-export const { play, pause, changeSong, updateCurrentTime, changeMode } =
-    musicSlice.actions;
+export const {
+    play,
+    pause,
+    changeSong,
+    updateCurrentTime,
+    changeMode,
+    togglePlaylistVisible,
+} = musicSlice.actions;
 
 export default musicSlice;

@@ -8,12 +8,12 @@ interface Window {
     };
 }
 
-declare module '*.module.css' {
+declare module "*.module.css" {
     const styles: Record<string, string>;
     export default styles;
 }
 
-declare module '*.module.scss' {
+declare module "*.module.scss" {
     const styles: Record<string, string>;
     export default styles;
 }
