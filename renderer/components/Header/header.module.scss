@@ -5,6 +5,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    border-radius: 8px 8px 0 0;
 
     :global {
         .favicon {
@@ -40,8 +41,13 @@
             padding: 8px;
         }
 
-        .icon-close:hover {
-            background-color: #ff5a5a;
+        .icon-close {
+            border-radius: 0 8px 0 0;
+
+            &:hover {
+                background-color: #ff5a5a;
+
+            }
         }
     }
 }
