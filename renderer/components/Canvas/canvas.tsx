@@ -9,6 +9,7 @@ function Canvas() {
 
     useInterval(() => {
         music.setRandomPreset();
+        document.hidden && setDelay(null);
     }, delay);
 
     useEffect(() => {
@@ -44,8 +45,7 @@ function Canvas() {
 
     useEffect(() => {
         const callback = () => {
-            const { hidden } = document;
-            setDelay(hidden ? null : 15000);
+            !document.hidden && setDelay(15000);
         };
 
         document.addEventListener("visibilitychange", callback);
