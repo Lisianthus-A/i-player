@@ -31,10 +31,12 @@ function Tooltip({
             return;
         }
 
-        const { x, y, width } = elem.children[0].getBoundingClientRect();
-        setPosition({
-            left: x + width / 2,
-            top: y - 40,
+        setTimeout(() => {
+            const { x, y, width } = elem.children[0].getBoundingClientRect();
+            setPosition({
+                left: x + width / 2,
+                top: y - 40,
+            });
         });
     }, []);
 
@@ -52,9 +54,11 @@ function Tooltip({
 
         if (isVisible) {
             window.addEventListener("mousemove", updatePosition);
+            window.addEventListener("mousedown", updatePosition);
 
             return () => {
                 window.removeEventListener("mousemove", updatePosition);
+                window.removeEventListener("mousedown", updatePosition);
             };
         }
     }, [isVisible]);

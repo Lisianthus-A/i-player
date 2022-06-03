@@ -1,0 +1,43 @@
+.progress-bar {
+    --rail-width: 0%;
+    --track-width: 100%;
+    cursor: pointer;
+    display: flex;
+    height: 6px;
+    border-radius: 3px;
+    background-image: linear-gradient(90deg, #caf6ff 0%, #ced7ff 45%, #edbfff 100%);
+
+    &:hover {
+        :global .handle {
+            opacity: 1;
+        }
+    }
+
+    :global {
+        .rail {
+            width: var(--rail-width);
+            height: 6px;
+            position: relative;
+        }
+
+        .handle {
+            width: 14px;
+            height: 14px;
+            border-radius: 7px;
+            position: absolute;
+            top: -4px;
+            right: -7px;
+            background-color: #fff;
+            border: 1px solid #56bbf1;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .track {
+            width: var(--track-width);
+            height: 6px;
+            border-radius: 3px;
+            background-color: #f3f3f3;
+        }
+    }
+}

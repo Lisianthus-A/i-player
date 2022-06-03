@@ -11,7 +11,7 @@ function createWindow() {
         minWidth: 480,
         minHeight: 360,
         frame: false,
-        transparent: true,
+        // transparent: true,
         icon: path.join(__dirname, "/public/favicon.ico"),
         webPreferences: {
             preload: path.join(__dirname, "preload.js"),

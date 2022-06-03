@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Icon, Tooltip } from "Components/index";
+import { Icon, Tooltip, ProgressBar } from "Components/index";
 import { useAppSelector, useAppDispatch } from "Utils/hooks";
 import { changeMode, togglePlaylistVisible } from "Store/musicSlice";
 import music from "Utils/music";
@@ -28,7 +28,7 @@ function Right() {
     const dispatch = useAppDispatch();
     const { text, icon } = modeMap[mode];
     const [isMute, setIsMute] = useState<boolean>(false);
-    const [volume, setVolume] = useState<string>("100");
+    const [volume, setVolume] = useState<number>(100);
 
     // 改变播放模式
     const handleChangeMode = () => {
@@ -73,11 +73,11 @@ function Right() {
             >
                 <Icon type={isMute ? "icon-mute" : "icon-voice"} />
             </Tooltip>
-            <input
-                value={isMute ? "0" : volume}
-                type="range"
-                onChange={(evt) => {
-                    const value = evt.target.value;
+            <ProgressBar
+                className="volumn-bar"
+                value={isMute ? 0 : volume}
+                tipFormatter={(value) => String(value >> 0)}
+                onChange={(value) => {
                     setVolume(value);
                     setIsMute(false);
                 }}

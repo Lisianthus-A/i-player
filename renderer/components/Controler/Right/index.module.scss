@@ -34,9 +34,14 @@
             border-color: #ba67db;
         }
 
-        input[type="range"] {
+        .volumn-bar {
             width: 80px;
-            accent-color: #ba67db;
+            margin-left: 8px;
+            background: #ba67db;
+
+            .handle {
+                opacity: 1;
+            }
         }
     }
 }
