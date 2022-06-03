@@ -20,6 +20,8 @@ function createWindow() {
 
     if (isDev) {
         win.loadURL("http://localhost:4000");
+    } else {
+        win.loadFile('./webContent/index.html');
     }
 
     win.on("maximize", () => {
@@ -29,7 +31,6 @@ function createWindow() {
         win.webContents.send("win-unmaximize");
     });
 
-    // win.loadFile('./dist/index.html');
 
     // 打开文件浏览器
     ipcMain.on("open-files", async (evt) => {

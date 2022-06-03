@@ -8,7 +8,7 @@ function Header() {
 
     return (
         <header className={styles.header}>
-            <img className="favicon" src="/favicon.ico" />
+            <img className="favicon" src="./favicon.ico" />
             <div className="title">{title}</div>
             <Icon
                 type="icon-minimize"

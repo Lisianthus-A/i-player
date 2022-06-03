@@ -4,6 +4,7 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    base: "./",
     server: {
         port: 4000,
     },
@@ -15,4 +16,7 @@ export default defineConfig({
             Store: path.join(__dirname, "./renderer/store"),
         },
     },
+    build: {
+        outDir: "webContent"
+    }
 });
