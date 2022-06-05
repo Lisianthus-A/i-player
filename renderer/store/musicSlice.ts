@@ -31,9 +31,7 @@ const initialState: State = {
 
 // 选择文件
 export const selectFiles = createAsyncThunk("music/selectFiles", async () => {
-    const paths = await new Promise<string[]>((resolve) => {
-        window.electronAPI.openFiles((paths) => resolve(paths));
-    });
+    const paths: string[] = await window.electronAPI.openFiles();
 
     const list: SongItem[] = [];
     for (let i = 0; i < paths.length; ++i) {

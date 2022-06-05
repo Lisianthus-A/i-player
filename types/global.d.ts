@@ -2,7 +2,7 @@ interface Window {
     electronAPI: {
         exit: () => void;
         readFile: (path: string) => Promise<ArrayBuffer | null>;
-        openFiles: (callback: (paths: string[]) => void) => void;
+        openFiles: () => Promise<string[]>;
         minimize: () => void;
         toggleMaximize: () => void;
     };

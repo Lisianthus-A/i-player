@@ -1,10 +1,17 @@
 const { contextBridge, ipcRenderer } = require("electron");
 const fs = require("fs");
 
-let openFilesCallback;
+let openFilesResolve;
+const onFilesSelected = (evt) => {
+    typeof openFilesResolve === "function" && openFilesResolve(evt.detail || []);
+};
+window.addEventListener('files-selected', onFilesSelected);
 
 ipcRenderer.on("open-files-callback", (evt, paths) => {
-    typeof openFilesCallback === "function" && openFilesCallback(paths);
+    const customEvt = new CustomEvent("files-selected", {
+        detail: paths
+    });
+    window.dispatchEvent(customEvt);
 });
 
 ipcRenderer.on("win-maximize", () => {
@@ -17,9 +24,11 @@ ipcRenderer.on("win-unmaximize", () => {
 
 contextBridge.exposeInMainWorld("electronAPI", {
     exit: () => ipcRenderer.send("exit"),
-    openFiles: (callback) => {
+    openFiles: () => {
         ipcRenderer.send("open-files");
-        openFilesCallback = callback;
+        return new Promise((resolve) => {
+            openFilesResolve = resolve;
+        });
     },
     readFile: (path) =>
         new Promise((resolve) => {
