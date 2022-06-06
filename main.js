@@ -31,7 +31,6 @@ function createWindow() {
         win.webContents.send("win-unmaximize");
     });
 
-
     // 打开文件浏览器
     ipcMain.on("open-files", async (evt) => {
         const { filePaths } = await dialog.showOpenDialog(win, {
