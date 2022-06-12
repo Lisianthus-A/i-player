@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useInterval } from "Utils/hooks";
+import { Icon } from "Components/index";
+import classNames from 'classnames';
 import music from "Utils/music";
 import styles from "./canvas.module.scss";
 
 function Canvas() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const mainRef = useRef<HTMLDivElement | null>(null);
     const [delay, setDelay] = useState<number | null>(15000);
+    const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
     useInterval(() => {
         music.setRandomPreset();
@@ -55,8 +59,37 @@ function Canvas() {
         };
     }, []);
 
+    // fullscreen
+    useEffect(() => {
+        const elem = mainRef.current;
+        if (!elem) {
+            return;
+        }
+
+        const callback = () => setIsFullscreen((value) => !value);
+
+        elem.addEventListener("fullscreenchange", callback);
+
+        return () => {
+            elem.removeEventListener("fullscreenchange", callback);
+        }
+    }, []);
+
     return (
-        <main className={styles.canvas}>
+        <main className={styles.canvas} ref={mainRef}>
+            <Icon
+                type="icon-fullscreen"
+                className={classNames('fullscreen', {
+                    hide: isFullscreen
+                })}
+                onClick={() => {
+                    const elem = mainRef.current;
+                    if (!elem) {
+                        return;
+                    }
+                    elem.requestFullscreen();
+                }}
+            />
             <canvas ref={canvasRef} />
         </main>
     );

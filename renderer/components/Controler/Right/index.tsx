@@ -3,6 +3,7 @@ import styles from "./index.module.scss";
 import { Icon, Tooltip, ProgressBar } from "Components/index";
 import { useAppSelector, useAppDispatch } from "Utils/hooks";
 import { changeMode, togglePlaylistVisible } from "Store/musicSlice";
+import classNames from "classnames";
 import music from "Utils/music";
 
 const modeMap = {
@@ -61,14 +62,18 @@ function Right() {
             </Tooltip>
             <Tooltip
                 text="播放列表"
-                wrapClassName={playlistVisible ? "icon active" : "icon"}
+                wrapClassName={classNames("icon", {
+                    active: playlistVisible,
+                })}
                 onClick={() => dispatch(togglePlaylistVisible())}
             >
                 <Icon type="icon-list" />
             </Tooltip>
             <Tooltip
                 text="音量"
-                wrapClassName={isMute ? "icon f28" : "icon"}
+                wrapClassName={classNames("icon", {
+                    f28: isMute,
+                })}
                 onClick={() => setIsMute(!isMute)}
             >
                 <Icon type={isMute ? "icon-mute" : "icon-voice"} />
