@@ -78,7 +78,7 @@ function Canvas() {
     return (
         <main className={styles.canvas} ref={mainRef}>
             <Icon
-                type="icon-fullscreen"
+                type="icon-fullscreen-expand"
                 className={classNames('fullscreen', {
                     hide: isFullscreen
                 })}
