@@ -201,6 +201,7 @@ class Music {
         const { visualizer, presetKeys, presets } = this;
         const randomIndex = (Math.random() * presetKeys.length) >> 0;
         const key = presetKeys[randomIndex];
+        console.log('presetKey', key);
         visualizer.loadPreset(presets[key], blendTime);
     }
 
