@@ -1,0 +1,45 @@
+@keyframes playing {
+    0% {
+        opacity: 0.4;
+        height: 6px;
+    }
+
+    50% {
+        opacity: 1;
+        height: 20px;
+    }
+
+    100% {
+        opacity: 0.4;
+        height: 6px;
+    }
+}
+
+.playing {
+    position: relative;
+    height: 32px;
+    :global {
+        .bar:local {
+            width: 5px !important;
+            position: absolute;
+            bottom: 6px;
+            animation: playing ease-in-out infinite;
+            background-color: #5f57cf;
+        }
+
+        .bar:nth-of-type(1) {
+            left: 0;
+            animation-duration: 1s;
+        }
+
+        .bar:nth-of-type(2) {
+            left: 5px;
+            animation-duration: 0.7s;
+        }
+
+        .bar:nth-of-type(3) {
+            left: 10px;
+            animation-duration: 0.9s;
+        }
+    }
+}

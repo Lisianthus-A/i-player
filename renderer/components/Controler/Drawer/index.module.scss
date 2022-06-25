@@ -4,15 +4,14 @@
     right: 0;
     width: 240px;
     height: calc(100vh - 96px);
-    background-color: #56bbf1;
-    color: #fff;
+    background: linear-gradient(135deg, #976590, #a183b1, #aba1ce, #b7bee8, #c7dcff);
+    color: #000;
 
     :global {
         .table-header {
             display: flex;
             height: 32px;
             line-height: 32px;
-            background-color: #1e7eb1;
             padding: 0 4px;
         }
 
@@ -35,7 +34,7 @@
             &::-webkit-scrollbar {
                 display: none;
                 width: 4px;
-                background-color: #fff;
+                background-color: #e3e3e3;
             }
 
             &:hover::-webkit-scrollbar {
@@ -43,7 +42,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-                background-color: #0b547a;
+                background-color: #888;
                 border-radius: 2px;
             }
         }
@@ -54,6 +53,7 @@
             line-height: 32px;
             padding: 0 4px;
             cursor: pointer;
+            user-select: none;
 
             &:hover {
                 background-color: #ba67db;

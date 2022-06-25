@@ -1,5 +1,6 @@
 import styles from "./index.module.scss";
 import { Portal } from "Components/index";
+import Playing from "./playing";
 import { timeConvert } from "Utils/index";
 import { useAppDispatch, useAppSelector } from "Utils/hooks";
 import { play } from 'Store/musicSlice';
@@ -11,6 +12,7 @@ function Drawer() {
         (state) => state.music.playlistVisible
     );
     const playlist = useAppSelector((state) => state.music.playlist);
+    const playingItem = useAppSelector((state) => state.music.playingItem);
 
     if (!playlistVisible) {
         return null;
@@ -34,7 +36,10 @@ function Drawer() {
                                 music.setRandomPreset(0);
                             }}
                         >
-                            <div>{index + 1}</div>
+                            {item === playingItem
+                                ? <Playing />
+                                : <div>{index + 1}</div>
+                            }
                             <div title={item.name}>{item.name}</div>
                             <div>{timeConvert(item.duration)}</div>
                         </div>
