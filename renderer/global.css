@@ -2,6 +2,13 @@ body {
     margin: 0;
     font-family: helvetica;
     overflow: hidden;
+
+    --bg-color: #f3f3f3;
+    --bg-color2: #fff;
+    --bg-color3: #ececec;
+    --n-color: rgba(51, 51, 51, 0.7);
+    --s-color: rgba(51, 51, 51, 1);
+    --s-color2: #56bbf1;
 }
 
 body .icon-unmaximize {

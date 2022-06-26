@@ -24,7 +24,7 @@
             position: absolute;
             bottom: 6px;
             animation: playing ease-in-out infinite;
-            background-color: #5f57cf;
+            background-color: var(--s-color2);
         }
 
         .bar:nth-of-type(1) {

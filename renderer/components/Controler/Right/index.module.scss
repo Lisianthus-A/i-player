@@ -15,13 +15,12 @@
             font-size: 24px;
             border-radius: 16px;
             cursor: pointer;
-            color: #fff;
             margin-left: 4px;
             border: 1px solid transparent;
 
             &:hover {
-                color: #ba67db;
-                border-color: #ba67db;
+                color: var(--s-color);
+                border-color: var(--s-color);
             }
         }
 
@@ -30,19 +29,19 @@
         }
 
         .active {
-            color: #ba67db;
-            border-color: #ba67db;
+            color: var(--s-color);
+            border-color: var(--s-color);
         }
 
         .volumn-bar {
             width: 80px;
             margin-left: 8px;
-            background: #ba67db;
+            // background: var(--n-color);
 
-            .handle {
-                opacity: 1;
-                border-color: #ba67db;
-            }
+            // .handle {
+            //     opacity: 1;
+            //     border-color: var(--s-color);
+            // }
         }
     }
 }

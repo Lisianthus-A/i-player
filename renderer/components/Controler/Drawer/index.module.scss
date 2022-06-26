@@ -4,8 +4,8 @@
     right: 0;
     width: 240px;
     height: calc(100vh - 96px);
-    background: linear-gradient(135deg, #976590, #a183b1, #aba1ce, #b7bee8, #c7dcff);
-    color: #000;
+    background-color: var(--bg-color3);
+    color: var(--s-color);
 
     :global {
         .table-header {
@@ -34,7 +34,7 @@
             &::-webkit-scrollbar {
                 display: none;
                 width: 4px;
-                background-color: #e3e3e3;
+                background-color: var(--bg-color2);
             }
 
             &:hover::-webkit-scrollbar {
@@ -42,7 +42,7 @@
             }
 
             &::-webkit-scrollbar-thumb {
-                background-color: #888;
+                background-color: var(--s-color);
                 border-radius: 2px;
             }
         }
@@ -56,7 +56,7 @@
             user-select: none;
 
             &:hover {
-                background-color: #ba67db;
+                background-color: var(--s-color2);
             }
         }
 

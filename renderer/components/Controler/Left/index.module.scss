@@ -10,8 +10,8 @@
             height: 32px;
             font-size: 32px;
             border-radius: 24px;
+            border-color: var(--n-color);
             cursor: pointer;
-            color: #e8e8e8;
         }
 
         .button-prev,
@@ -20,8 +20,8 @@
             @include button-base;
 
             &:hover {
-                color: #56bbf1;
-                border-color: #56bbf1;
+                color: var(--s-color);
+                border-color: var(--s-color);
             }
         }
 
@@ -30,7 +30,7 @@
         }
 
         .button-play {
-            border: 1px solid #e8e8e8;
+            border: 1px solid;
             margin: 0 8px;
             width: 40px;
             height: 40px;
