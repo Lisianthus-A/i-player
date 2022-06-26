@@ -91,6 +91,8 @@ const musicSlice = createSlice({
             const nextSong = playlist[nextIndex];
             state.playingItem = nextSong;
 
+            state.status = 'playing';
+
             music.play(nextSong.path);
             music.setRandomPreset(0);
         },
