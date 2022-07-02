@@ -4,6 +4,7 @@ import { Icon } from "Components/index";
 import classNames from 'classnames';
 import music from "Utils/music";
 import styles from "./canvas.module.scss";
+import Mask from './mask';
 
 function Canvas() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -77,6 +78,7 @@ function Canvas() {
 
     return (
         <main className={styles.canvas} ref={mainRef}>
+            <Mask />
             <Icon
                 type="icon-fullscreen-expand"
                 className={classNames('fullscreen', {

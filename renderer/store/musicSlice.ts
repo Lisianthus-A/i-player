@@ -18,6 +18,7 @@ interface State {
     status: "playing" | "pause";
     mode: ModeType;
     currentTime: number;
+    initialized: boolean;
 }
 
 const initialState: State = {
@@ -27,6 +28,7 @@ const initialState: State = {
     status: "pause",
     mode: "cycle",
     currentTime: 0,
+    initialized: false,
 };
 
 // 选择文件
@@ -118,6 +120,7 @@ const musicSlice = createSlice({
             state.playlist = list;
             state.playingItem = list[0];
             state.status = "playing";
+            state.initialized = true;
             music.play(list[0].path);
         });
     },

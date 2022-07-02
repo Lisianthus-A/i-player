@@ -1,0 +1,79 @@
+@keyframes notes {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.5) translate(50%, -50%);
+    }
+    80% {
+        opacity: 0;
+        transform: scale(1.5) translate(100%, -100%);
+    }
+    100% {
+        transform: scale(1.5) translate(100%, -100%);
+        opacity: 0;
+    }
+}
+
+.mask {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+
+    :global {
+        .mask-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 80px;
+            border-radius: 40px;
+            border: 1px solid currentColor;
+            color: #aaa;
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+
+        .note-1:local,
+        .note-2:local,
+        .note-3:local,
+        .note-4:local {
+            position: absolute;
+            animation: notes 2s infinite linear;
+            font-size: 40px;
+            opacity: 0;
+        }
+
+        .note-1 {
+            top: 45%;
+            left: 0;
+            animation-delay: 0.5s;
+        }
+
+        .note-2 {
+            top: 45%;
+            left: 30%;
+            animation-delay: 1s;
+        }
+
+        .note-3 {
+            top: 46%;
+            left: 60%;
+            animation-delay: 1.5s;
+        }
+
+        .note-4 {
+            top: 46%;
+            left: 90%;
+            animation-delay: 2s;
+        }
+    }
+}
