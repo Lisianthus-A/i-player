@@ -1,16 +1,44 @@
 {
   "name": "i-player",
   "version": "1.0.0",
-  "description": "Hello World!",
+  "description": "A pure local music player",
   "main": "main.js",
   "scripts": {
     "electron": "cross-env NODE_ENV=development electron .",
     "front": "vite",
-    "build": "tsc && vite build && electron-builder --win --x64"
+    "build": "tsc && vite build && electron-builder"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisianthus-a/i-player.git"
+  },
+  "keywords": [
+    "music",
+    "player",
+    "react",
+    "electron"
+  ],
   "author": "lisianthus-a",
   "license": "MIT",
+  "build": {
+    "appId": "com.lisianthus.i.player",
+    "productName": "I Player",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ]
+    }
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.1",
     "butterchurn": "^2.6.7",
