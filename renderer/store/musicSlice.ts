@@ -87,7 +87,7 @@ const musicSlice = createSlice({
                         : (len + currentIndex - 1) % len;
             } else if (mode === "random") {
                 nextIndex = (Math.random() * len) >> 0;
-                nextIndex = nextIndex === currentIndex ? currentIndex + 1 : nextIndex;
+                nextIndex = nextIndex === currentIndex ? (currentIndex + 1) % len : nextIndex;
             }
 
             const nextSong = playlist[nextIndex];
