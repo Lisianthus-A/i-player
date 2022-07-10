@@ -77,13 +77,13 @@ function Canvas() {
     }, []);
 
     return (
-        <main className={styles.canvas} ref={mainRef}>
+        <main className={classNames(styles.canvas, {
+            [styles.hide]: isFullscreen
+        })} ref={mainRef}>
             <Mask />
             <Icon
                 type="icon-fullscreen-expand"
-                className={classNames('fullscreen', {
-                    hide: isFullscreen
-                })}
+                className="fullscreen"
                 onClick={() => {
                     const elem = mainRef.current;
                     if (!elem) {
