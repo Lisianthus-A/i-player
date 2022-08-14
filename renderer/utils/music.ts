@@ -23,6 +23,9 @@ class Music {
     private presets: Record<string, any>;
     private presetKeys: string[];
     private renderId: number;
+    private shouldRemovedPresetKeys: Record<string, boolean> = {
+        "Geiss - Spiral Artifact": true
+    };
 
     constructor() {
         this.audioContext = new AudioContext();
@@ -31,7 +34,7 @@ class Music {
         this.currentSource = null;
         this.visualizer = null;
         this.presets = butterchurnPresets.getPresets();
-        this.presetKeys = Object.keys(this.presets);
+        this.presetKeys = Object.keys(this.presets).filter((key) => !this.shouldRemovedPresetKeys[key]);
         this.onEnded = null;
         this.startTime = false;
         this.playingItem = { path: "", buffer: null };
