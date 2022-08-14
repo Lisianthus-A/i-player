@@ -21,7 +21,7 @@ function createWindow() {
     if (isDev) {
         win.loadURL("http://localhost:4000");
     } else {
-        win.loadFile('./dist/webContent/index.html');
+        win.loadFile('./webContent/index.html');
     }
 
     win.on("maximize", () => {

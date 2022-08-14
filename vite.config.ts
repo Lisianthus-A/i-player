@@ -17,6 +17,6 @@ export default defineConfig({
         },
     },
     build: {
-        outDir: "dist/webContent"
+        outDir: "webContent"
     }
 });
