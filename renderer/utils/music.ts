@@ -24,7 +24,18 @@ class Music {
     private presetKeys: string[];
     private renderId: number;
     private shouldRemovedPresetKeys: Record<string, boolean> = {
-        "Geiss - Spiral Artifact": true
+        "Geiss - Spiral Artifact": true,
+        "Geiss + Flexi + Martin - disconnected": true,
+        "Geiss - Thumb Drum": true,
+        "Flexi, fishbrain, Geiss + Martin - tokamak witchery": true,
+        "Flexi - truly soft piece of software - this is generic texturing (Jelly) ": true,
+        "Flexi - infused with the spiral": true,
+        "Flexi - mindblob mix": true,
+        "Flexi - smashing fractals [acid etching mix]": true,
+        "flexi - swing out on the spiral": true,
+        "Cope - The Neverending Explosion of Red Liquid Fire": true,
+        "TonyMilkdrop - Leonardo Da Vinci's Balloon [Flexi - merry-go-round + techstyle]": true,
+        "Idiot - Star Of Annon": true,
     };
 
     constructor() {
@@ -35,6 +46,8 @@ class Music {
         this.visualizer = null;
         this.presets = butterchurnPresets.getPresets();
         this.presetKeys = Object.keys(this.presets).filter((key) => !this.shouldRemovedPresetKeys[key]);
+        console.log(this.presetKeys.length);
+        console.log(Object.keys(this.presets).length);
         this.onEnded = null;
         this.startTime = false;
         this.playingItem = { path: "", buffer: null };
