@@ -23,19 +23,28 @@ class Music {
     private presets: Record<string, any>;
     private presetKeys: string[];
     private renderId: number;
-    private shouldRemovedPresetKeys: Record<string, boolean> = {
-        "Geiss - Spiral Artifact": true,
-        "Geiss + Flexi + Martin - disconnected": true,
-        "Geiss - Thumb Drum": true,
-        "Flexi, fishbrain, Geiss + Martin - tokamak witchery": true,
-        "Flexi - truly soft piece of software - this is generic texturing (Jelly) ": true,
-        "Flexi - infused with the spiral": true,
-        "Flexi - mindblob mix": true,
-        "Flexi - smashing fractals [acid etching mix]": true,
-        "flexi - swing out on the spiral": true,
-        "Cope - The Neverending Explosion of Red Liquid Fire": true,
-        "TonyMilkdrop - Leonardo Da Vinci's Balloon [Flexi - merry-go-round + techstyle]": true,
-        "Idiot - Star Of Annon": true,
+    private shouldRemovedPresetKeys: Record<string, number> = {
+        "Geiss - Spiral Artifact": 0,
+        "Geiss + Flexi + Martin - disconnected": 0,
+        "Geiss - Thumb Drum": 0,
+        "Geiss, Flexi + Stahlregen - Thumbdrum Tokamak [crossfiring aftermath jelly mashup]": 0,
+        "Flexi, fishbrain, Geiss + Martin - tokamak witchery": 0,
+        "Flexi - truly soft piece of software - this is generic texturing (Jelly) ": 0,
+        "Flexi - infused with the spiral": 0,
+        "Flexi - mindblob mix": 0,
+        "Flexi - smashing fractals [acid etching mix]": 0,
+        "Flexi + amandio c - piercing 05 - Kopie (2) - Kopie": 0,
+        "Flexi - predator-prey-spirals": 0,
+        "flexi - swing out on the spiral": 0,
+        "flexi - mom, why the sky looks different today": 0,
+        "Cope - The Neverending Explosion of Red Liquid Fire": 0,
+        "cope + martin - mother-of-pearl": 0,
+        "TonyMilkdrop - Leonardo Da Vinci's Balloon [Flexi - merry-go-round + techstyle]": 0,
+        "Idiot - Star Of Annon": 0,
+        "Zylot - Paint Spill (Music Reactive Paint Mix)": 0,
+        "Rovastar - Oozing Resistance": 0,
+        "suksma - uninitialized variabowl (hydroponic chronic)": 0,
+        "Unchained & Rovastar - Wormhole Pillars (Hall of Shadows mix)": 0,
     };
 
     constructor() {
@@ -45,9 +54,7 @@ class Music {
         this.currentSource = null;
         this.visualizer = null;
         this.presets = butterchurnPresets.getPresets();
-        this.presetKeys = Object.keys(this.presets).filter((key) => !this.shouldRemovedPresetKeys[key]);
-        console.log(this.presetKeys.length);
-        console.log(Object.keys(this.presets).length);
+        this.presetKeys = Object.keys(this.presets).filter((key) => !this.shouldRemovedPresetKeys.hasOwnProperty(key));
         this.onEnded = null;
         this.startTime = false;
         this.playingItem = { path: "", buffer: null };
