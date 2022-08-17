@@ -82,7 +82,7 @@ function Canvas() {
         })} ref={mainRef}>
             <Mask />
             <Icon
-                type="icon-fullscreen-expand"
+                type="icon-fullscreen"
                 className="fullscreen"
                 onClick={() => {
                     const elem = mainRef.current;

@@ -31,8 +31,10 @@ const initialState: State = {
     initialized: false,
 };
 
+const pathSet = new Set<string>();
+
 // 选择文件
-export const selectFiles = createAsyncThunk("music/selectFiles", async () => {
+export const selectFiles = createAsyncThunk("music/selectFiles", async (isAppendNewList?: boolean) => {
     const paths: string[] = await window.electronAPI.openFiles();
 
     const list: SongItem[] = [];
@@ -45,7 +47,10 @@ export const selectFiles = createAsyncThunk("music/selectFiles", async () => {
             duration,
         });
     }
-    return list;
+    return {
+        list,
+        isAppendNewList: isAppendNewList === true
+    };
 });
 
 const musicSlice = createSlice({
@@ -98,6 +103,28 @@ const musicSlice = createSlice({
             music.play(nextSong.path);
             music.setRandomPreset(0);
         },
+        // 删除某一首歌曲
+        removeItem: (state, action: PA<number>) => {
+            const index = action.payload;
+            if (index < 0 || index >= state.playlist.length || state.playlist.length === 1) {
+                return;
+            }
+
+            const newList = state.playlist.slice();
+            const removedItem = newList.splice(action.payload, 1)[0];
+            // 正在播放的歌曲
+            if (removedItem.path === state.playingItem?.path) {
+                const nextSongIndex = (index + 1) % state.playlist.length;
+                const nextSong = state.playlist[nextSongIndex];
+                state.playingItem = nextSong;
+                state.status = "playing";
+                music.play(nextSong.path);
+                music.setRandomPreset(0);
+            }
+
+            state.playlist = newList;
+            pathSet.delete(removedItem.path);
+        },
         // 更新当前时间
         updateCurrentTime: (state) => {
             state.currentTime = music.getCurrentTime();
@@ -113,15 +140,31 @@ const musicSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(selectFiles.fulfilled, (state, action) => {
-            const list = action.payload;
+            const { list, isAppendNewList } = action.payload;
             if (list.length === 0) {
                 return;
             }
-            state.playlist = list;
-            state.playingItem = list[0];
-            state.status = "playing";
-            state.initialized = true;
-            music.play(list[0].path);
+            if (isAppendNewList) {
+                const newList = state.playlist.slice();
+                list.forEach((item) => {
+                    if (pathSet.has(item.path)) {
+                        return;
+                    }
+
+                    newList.push(item);
+                    pathSet.add(item.path);
+                });
+                state.playlist = newList;
+            } else {
+                state.playlist = list;
+                state.playingItem = list[0];
+                list.forEach((item) => {
+                    pathSet.add(item.path);
+                });
+                state.status = "playing";
+                state.initialized = true;
+                music.play(list[0].path);
+            }
         });
     },
 });
@@ -133,6 +176,7 @@ export const {
     updateCurrentTime,
     changeMode,
     togglePlaylistVisible,
+    removeItem,
 } = musicSlice.actions;
 
 export default musicSlice;

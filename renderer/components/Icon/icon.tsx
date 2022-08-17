@@ -1,8 +1,25 @@
 import { memo } from "react";
 import type { MouseEventHandler } from "react";
 
+type IconType =
+    | "icon-add"
+    | "icon-delete"
+    | "icon-fullscreen"
+    | "icon-return-size"
+    | "icon-mute"
+    | "icon-cycle"
+    | "icon-random"
+    | "icon-single-cycle"
+    | "icon-pause"
+    | "icon-prev"
+    | "icon-list"
+    | "icon-play"
+    | "icon-voice"
+    | "icon-maximize"
+    | "icon-minimize"
+    | "icon-close";
 interface Props {
-    type: string;
+    type: IconType;
     onClick?: MouseEventHandler<SVGSVGElement>;
     className?: string;
 }

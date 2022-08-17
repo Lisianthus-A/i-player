@@ -6,7 +6,7 @@ import { changeMode, togglePlaylistVisible } from "Store/musicSlice";
 import classNames from "classnames";
 import music from "Utils/music";
 
-const modeMap = {
+const modeMap: Record<string, any> = {
     cycle: {
         text: "列表循环",
         icon: "icon-cycle",

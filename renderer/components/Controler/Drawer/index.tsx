@@ -1,9 +1,9 @@
 import styles from "./index.module.scss";
-import { Portal } from "Components/index";
+import { Portal, Icon } from "Components/index";
 import Playing from "./playing";
 import { timeConvert } from "Utils/index";
 import { useAppDispatch, useAppSelector } from "Utils/hooks";
-import { play } from 'Store/musicSlice';
+import { play, removeItem, selectFiles } from 'Store/musicSlice';
 import music from "Utils/music";
 
 function Drawer() {
@@ -40,12 +40,24 @@ function Drawer() {
                                 ? <Playing />
                                 : <div>{index + 1}</div>
                             }
+                            <Icon
+                                type="icon-delete"
+                                className="item-delete"
+                                onClick={(evt) => {
+                                    evt.stopPropagation();
+                                    dispatch(removeItem(index));
+                                }}
+                            />
                             <div title={item.name}>{item.name}</div>
                             <div>{timeConvert(item.duration)}</div>
                         </div>
                     ))}
                 </div>
-                <div className="table-footer"></div>
+                <div className="table-footer">
+                    <div className="item-add" onClick={() => dispatch(selectFiles(playlist.length !== 0))}>
+                        <Icon type="icon-add" /> 添加歌曲
+                    </div>
+                </div>
             </div>
         </Portal>
     );
