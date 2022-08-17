@@ -150,7 +150,7 @@ class Music {
         this.currentSource = source;
         if (visualizer) {
             visualizer.connectAudio(source);
-            this.draw();
+            audioContext.state !== "suspended" && this.draw();
         }
 
         // 播放
@@ -170,8 +170,8 @@ class Music {
      * 暂停播放
      */
     async pause(): Promise<boolean> {
-        await this.audioContext.suspend();
         this.stopDarw();
+        await this.audioContext.suspend();
         return true;
     }
 
