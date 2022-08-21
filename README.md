@@ -1,5 +1,5 @@
 # I Player
-带有音乐可视化的纯本地播放器。
+带有音乐可视化的纯本地 windows 播放器。
 
 ## 预览
 ![preview](./.github/preview.png)
