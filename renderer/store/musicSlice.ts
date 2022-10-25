@@ -53,6 +53,8 @@ export const selectFiles = createAsyncThunk("music/selectFiles", async (isAppend
     };
 });
 
+const audio: HTMLAudioElement = document.getElementById("audio") as HTMLAudioElement;
+
 const musicSlice = createSlice({
     name: "music",
     initialState,
@@ -60,16 +62,20 @@ const musicSlice = createSlice({
         // 播放
         play: (state, action: PA<{ item: SongItem; offset?: number }>) => {
             const { item, offset } = action.payload;
+            navigator.mediaSession.playbackState = "playing";
             state.status = "playing";
             state.playingItem = item;
             if (typeof offset === "number") {
                 state.currentTime = offset;
             }
+            audio.play();
             music.play(item.path, offset);
         },
         // 暂停
         pause: (state) => {
+            navigator.mediaSession.playbackState = "paused";
             state.status = "pause";
+            audio.pause();
             music.pause();
         },
         // 上一首 / 下一首
@@ -161,6 +167,8 @@ const musicSlice = createSlice({
                 list.forEach((item) => {
                     pathSet.add(item.path);
                 });
+                audio.play();
+                navigator.mediaSession.playbackState = "playing";
                 state.status = "playing";
                 state.initialized = true;
                 music.play(list[0].path);
