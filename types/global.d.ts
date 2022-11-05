@@ -1,6 +1,6 @@
 interface Window {
     electronAPI: {
-        exit: () => void;
+        hide: () => void;
         readFile: (path: string) => Promise<ArrayBuffer | null>;
         openFiles: () => Promise<string[]>;
         minimize: () => void;

@@ -1,8 +1,17 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const {
+    app,
+    dialog,
+    ipcMain,
+    BrowserWindow,
+    Menu,
+    Tray,
+    MenuItem,
+} = require("electron");
 const process = require("process");
 const path = require("path");
 
 const isDev = process.env.NODE_ENV === "development";
+const iconPath = path.join(__dirname, "/public/favicon.ico");
 
 function createWindow() {
     const win = new BrowserWindow({
@@ -21,8 +30,24 @@ function createWindow() {
     if (isDev) {
         win.loadURL("http://localhost:4000");
     } else {
-        win.loadFile('./webContent/index.html');
+        win.loadFile("./webContent/index.html");
     }
+
+    // 设置托盘
+    const appTray = new Tray(iconPath);
+    const trayMenu = new Menu();
+    trayMenu.append(
+        new MenuItem({
+            type: "normal",
+            label: "退出",
+            click: app.quit,
+        })
+    );
+    appTray.setContextMenu(trayMenu);
+    appTray.setToolTip("I Player");
+    appTray.on("double-click", () => {
+        win.show();
+    });
 
     win.on("maximize", () => {
         win.webContents.send("win-maximize");
@@ -73,9 +98,9 @@ function createWindow() {
         win.minimize();
     });
 
-    // 退出应用
-    ipcMain.on("exit", () => {
-        app.quit();
+    // 隐藏窗口
+    ipcMain.on("hide", () => {
+        win.hide();
     });
 }
 

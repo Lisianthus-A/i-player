@@ -23,7 +23,7 @@ ipcRenderer.on("win-unmaximize", () => {
 });
 
 contextBridge.exposeInMainWorld("electronAPI", {
-    exit: () => ipcRenderer.send("exit"),
+    hide: () => ipcRenderer.send("hide"),
     openFiles: () => {
         ipcRenderer.send("open-files");
         return new Promise((resolve) => {

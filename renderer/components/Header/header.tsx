@@ -32,7 +32,7 @@ function Header() {
             <Icon
                 type="icon-close"
                 className="icon icon-close"
-                onClick={window.electronAPI.exit}
+                onClick={window.electronAPI.hide}
             />
         </header>
     );
