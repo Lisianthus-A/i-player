@@ -72,7 +72,7 @@ function createWindow() {
                         "ogg",
                         "m4a",
                         "oga",
-                        "mid",
+                        // "mid",
                         "mp3",
                         "aiff",
                         "wma",
