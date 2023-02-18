@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Portal } from "Components/index";
+import { Portal } from "@/components";
 import styles from "./tooltip.module.scss";
 import type { ReactElement } from "react";
 

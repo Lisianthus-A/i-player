@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import type { AppDispatch, RootState } from "../store/index";
+import type { AppDispatch, RootState } from "../store";
 import type { TypedUseSelectorHook } from "react-redux";
 
 export const useSetState = <T extends object>(

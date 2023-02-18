@@ -1,10 +1,10 @@
 import styles from "./index.module.scss";
-import { Portal, Icon } from "Components/index";
+import { Portal, Icon } from "@/components";
 import Playing from "./playing";
-import { timeConvert } from "Utils/index";
-import { useAppDispatch, useAppSelector } from "Utils/hooks";
-import { play, removeItem, selectFiles } from 'Store/musicSlice';
-import music from "Utils/music";
+import { timeConvert } from "@/utils";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
+import { play, removeItem, selectFiles } from '@/store/musicSlice';
+import music from "@/utils/music";
 
 function Drawer() {
     const dispatch = useAppDispatch();

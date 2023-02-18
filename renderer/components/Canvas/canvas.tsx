@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { useInterval } from "Utils/hooks";
-import { Icon } from "Components/index";
+import { useInterval } from "@/utils/hooks";
+import { Icon } from "@/components";
 import classNames from 'classnames';
-import music from "Utils/music";
+import music from "@/utils/music";
 import styles from "./canvas.module.scss";
 import Mask from './mask';
 

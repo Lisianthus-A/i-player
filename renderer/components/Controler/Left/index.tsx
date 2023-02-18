@@ -1,7 +1,7 @@
 import styles from "./index.module.scss";
-import { Icon, Tooltip } from "Components/index";
-import { play, pause, changeSong, selectFiles } from "Store/musicSlice";
-import { useAppDispatch, useAppSelector } from "Utils/hooks";
+import { Icon, Tooltip } from "@/components";
+import { play, pause, changeSong, selectFiles } from "@/store/musicSlice";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 
 function Left() {
     const dispatch = useAppDispatch();

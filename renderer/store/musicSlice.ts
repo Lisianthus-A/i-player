@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { getDuration, getFileName } from "Utils/index";
-import music from "Utils/music";
+import { getDuration, getFileName } from "@/utils";
+import music from "@/utils/music";
 
 type PA<T> = PayloadAction<T>;
 

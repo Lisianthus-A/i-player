@@ -1,7 +1,7 @@
 import styles from './mask.module.scss';
-import { Icon } from "Components/index";
-import { selectFiles } from "Store/musicSlice";
-import { useAppDispatch, useAppSelector } from "Utils/hooks";
+import { Icon } from "@/components";
+import { selectFiles } from "@/store/musicSlice";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 
 function Mask() {
     const dispatch = useAppDispatch();

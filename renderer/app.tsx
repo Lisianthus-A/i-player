@@ -1,6 +1,6 @@
 import "./global.css";
 import styles from "./app.module.scss";
-import { Header, Canvas, Controler } from "Components/index";
+import { Header, Canvas, Controler } from "@/components";
 
 function App() {
     return (

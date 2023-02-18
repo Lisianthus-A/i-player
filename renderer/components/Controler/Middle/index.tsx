@@ -1,9 +1,9 @@
 import styles from "./index.module.scss";
-import { ProgressBar } from "Components/index";
+import { ProgressBar } from "@/components";
 import Time from "./Time";
-import { play } from "Store/musicSlice";
-import { useAppSelector, useAppDispatch } from "Utils/hooks";
-import { timeConvert } from "Utils/index";
+import { play } from "@/store/musicSlice";
+import { useAppSelector, useAppDispatch } from "@/utils/hooks";
+import { timeConvert } from "@/utils";
 
 function Middle() {
     const dispatch = useAppDispatch();

@@ -3,10 +3,10 @@ import Left from "./Left";
 import Middle from "./Middle";
 import Right from "./Right";
 import Drawer from "./Drawer";
-import music from "Utils/music";
+import music from "@/utils/music";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector, useInterval } from "Utils/hooks";
-import { changeSong, updateCurrentTime, play, pause } from "Store/musicSlice";
+import { useAppDispatch, useAppSelector, useInterval } from "@/utils/hooks";
+import { changeSong, updateCurrentTime, play, pause } from "@/store/musicSlice";
 
 function Controler() {
     const dispatch = useAppDispatch();

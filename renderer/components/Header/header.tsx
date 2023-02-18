@@ -1,6 +1,6 @@
 import styles from "./header.module.scss";
 import { Icon } from "../index";
-import { useAppSelector } from "Utils/hooks";
+import { useAppSelector } from "@/utils/hooks";
 
 function Header() {
     const playingItem = useAppSelector((state) => state.music.playingItem);

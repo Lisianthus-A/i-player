@@ -1,5 +1,5 @@
-import { timeConvert } from "Utils/index";
-import { useAppSelector } from "Utils/hooks";
+import { timeConvert } from "@/utils";
+import { useAppSelector } from "@/utils/hooks";
 
 function Time() {
     const currentTime = useAppSelector((state) =>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
-import { Icon, Tooltip, ProgressBar } from "Components/index";
-import { useAppSelector, useAppDispatch } from "Utils/hooks";
-import { changeMode, togglePlaylistVisible } from "Store/musicSlice";
+import { Icon, Tooltip, ProgressBar } from "@/components";
+import { useAppSelector, useAppDispatch } from "@/utils/hooks";
+import { changeMode, togglePlaylistVisible } from "@/store/musicSlice";
 import classNames from "classnames";
-import music from "Utils/music";
+import music from "@/utils/music";
 
 const modeMap: Record<string, any> = {
     cycle: {

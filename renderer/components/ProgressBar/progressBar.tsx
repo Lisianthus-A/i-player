@@ -1,8 +1,8 @@
-import styles from './index.module.scss';
+import styles from "./index.module.scss";
 import { memo, useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
-import Tooltip from "Components/Tooltip";
-import type { CSSProperties } from 'react';
+import { Tooltip } from "@/components";
+import type { CSSProperties } from "react";
 
 interface Props {
     min?: number;
@@ -23,13 +23,15 @@ function ProgressBar({
     style,
     tipFormatter,
     onChange,
-    onChangeEnd
+    onChangeEnd,
 }: Props) {
     const minValue = min === undefined ? 0 : min;
     const maxValue = max === undefined ? 100 : max;
     const isDiabled = minValue === maxValue;
     const barRef = useRef<HTMLDivElement | null>(null);
-    const [internalValue, setInternalValue] = useState<number>(value === undefined ? minValue : value);
+    const [internalValue, setInternalValue] = useState<number>(
+        value === undefined ? minValue : value
+    );
     const [draging, setDraging] = useState<boolean>(false);
 
     // 更新进度条元素宽度
@@ -125,7 +127,7 @@ function ProgressBar({
             return;
         }
 
-        updateElementWidth(internalValue / maxValue * 100);
+        updateElementWidth((internalValue / maxValue) * 100);
     }, [internalValue, maxValue, draging, isDiabled]);
 
     useEffect(() => {
@@ -136,9 +138,9 @@ function ProgressBar({
         setInternalValue(value);
     }, [value]);
 
-    let className = styles['progress-bar'];
+    let className = styles["progress-bar"];
     if (propsClassName) {
-        className += ' ' + propsClassName;
+        className += " " + propsClassName;
     }
 
     return (
@@ -149,7 +151,14 @@ function ProgressBar({
             onMouseDown={handleMouseDown}
         >
             <div className="rail">
-                <Tooltip visible={draging} text={tipFormatter ? tipFormatter(internalValue) : String(internalValue)}>
+                <Tooltip
+                    visible={draging}
+                    text={
+                        tipFormatter
+                            ? tipFormatter(internalValue)
+                            : String(internalValue)
+                    }
+                >
                     <div className="handle" />
                 </Tooltip>
             </div>
