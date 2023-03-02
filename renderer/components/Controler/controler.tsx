@@ -5,7 +5,7 @@ import Right from "./Right";
 import Drawer from "./Drawer";
 import music from "@/utils/music";
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector, useInterval } from "@/utils/hooks";
+import { useAppDispatch, useAppSelector } from "@/utils/hooks";
 import { changeSong, updateCurrentTime, play, pause } from "@/store/musicSlice";
 
 function Controler() {
@@ -13,14 +13,23 @@ function Controler() {
 
     const playingItem = useAppSelector((state) => state.music.playingItem);
 
-    // 获取播放时间
-    useInterval(() => {
-        dispatch(updateCurrentTime());
-    }, 300);
-
-    // 设置播放结束后的回调
+    // 设置回调
     useEffect(() => {
-        music.setOnEnded(() => dispatch(changeSong("next")));
+        const onEnded = () => {
+            dispatch(changeSong("next"))
+        };
+
+        const onTimeUpdate = (evt: any) => {
+            const { currentTime } = evt;
+            dispatch(updateCurrentTime(currentTime));
+        };
+
+        music.tag.on("ended", onEnded);
+        music.tag.on("timeUpdate", onTimeUpdate);
+        return () => {
+            music.tag.off("ended", onEnded);
+            music.tag.off("timeUpdate", onTimeUpdate);
+        };
     }, [dispatch]);
 
     // mediaSession MediaMetadata & ActionHandler

@@ -41,12 +41,14 @@
     "classnames": "^2.3.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.8"
+    "react-redux": "^7.2.8",
+    "webaudiotag.js": "^0.1.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.23",
     "@types/react": "^17.0.43",
     "@types/react-dom": "^17.0.14",
+    "@types/react-redux": "^7.1.25",
     "@vitejs/plugin-react": "^1.2.0",
     "cross-env": "^7.0.3",
     "electron": "^17.1.2",

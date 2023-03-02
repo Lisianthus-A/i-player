@@ -132,8 +132,8 @@ const musicSlice = createSlice({
             pathSet.delete(removedItem.path);
         },
         // 更新当前时间
-        updateCurrentTime: (state) => {
-            state.currentTime = music.getCurrentTime();
+        updateCurrentTime: (state, action: PA<number>) => {
+            state.currentTime = action.payload;
         },
         // 改变播放模式
         changeMode: (state, action: PA<ModeType>) => {

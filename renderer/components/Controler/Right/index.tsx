@@ -43,12 +43,8 @@ function Right() {
     };
 
     useEffect(() => {
-        if (isMute) {
-            music.setVolume(0);
-            return;
-        }
-
-        music.setVolume(Number(volume) / 100);
+        music.tag.muted = isMute;
+        music.tag.volume = Number(volume) / 100;
     }, [volume, isMute]);
 
     return (
