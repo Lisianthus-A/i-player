@@ -7,6 +7,13 @@ const {
     Tray,
     MenuItem,
 } = require("electron");
+
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+    app.quit();
+    return;
+}
+
 const process = require("process");
 const path = require("path");
 
@@ -102,16 +109,25 @@ function createWindow() {
     ipcMain.on("hide", () => {
         win.hide();
     });
+
+    return win;
 }
 
 app.whenReady().then(() => {
-    createWindow();
+    let myWin = createWindow();
 
     app.on("activate", () => {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) {
-            createWindow();
+            myWin = createWindow();
+        }
+    });
+
+    app.on("second-instance", () => {
+        if (myWin) {
+            myWin.show();
+            myWin.focus();
         }
     });
 
